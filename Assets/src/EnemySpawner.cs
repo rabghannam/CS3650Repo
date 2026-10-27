@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [Header("Spawn Settings")]
-    public GameObject enemyPrefab;
+    public GameObject[] enemyPrefabs; // Array of all 8 enemy types
     public float spawnInterval = 2f; // seconds between spawns
     public float minY = -4f; // Minimum Y offset from transform
     public float maxY = 4f; // Maximum Y offset from transform
@@ -37,11 +37,12 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        if (enemyPrefab != null)
+        if (enemyPrefabs != null && enemyPrefabs.Length > 0)
         {
+            GameObject selectedPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
             float randomY = Random.Range(minY, maxY);
             Vector2 spawnPosition = new Vector2(transform.position.x, transform.position.y + randomY);
-            GameObject newEnemyObj = Instantiate(enemyPrefab, spawnPosition, Quaternion.Euler(0, 0, 90));
+            GameObject newEnemyObj = Instantiate(selectedPrefab, spawnPosition, Quaternion.identity);
             
             if (game != null)
             {
