@@ -19,6 +19,13 @@ public class Player : GameObjectBase
     public GameObject deathEffectPrefab;
     public float deathEffectDuration = 1.5f;
 
+    [Header("Shooting")]
+    public GameObject bulletPrefab;
+    public const float FIRE_RATE = 5f; // shots per second
+    public enum FireMode { Manual, Automatic }
+    public FireMode fireMode = FireMode.Manual;
+    private float fireTimer;
+
     // State machine states
     public enum PlayerState { Alive, Invulnerable, Dying, GameOver }
     public PlayerState state = PlayerState.Alive;
@@ -67,6 +74,56 @@ public class Player : GameObjectBase
         Vector2 dir = s.moveDirection;                            // instantaneous direction change
         velocity = dir * moveSpeed;                              // 300 units/second
         position += velocity * Time.deltaTime;                   // frame-rate independent
+
+        // Toggle fire mode with Tab
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            fireMode = fireMode == FireMode.Manual ? FireMode.Automatic : FireMode.Manual;
+            fireTimer = 0f; // Reset timer to fire immediately on mode change
+        }
+
+        // Shooting logic
+        bool spacePressed = Input.GetKey(KeyCode.Space);
+        bool mousePressed = Input.GetMouseButton(0);
+        float fireInterval = 1f / FIRE_RATE;
+
+        if (bulletPrefab != null)
+        {
+            if (fireMode == FireMode.Manual)
+            {
+                // Manual: fire on key/mouse down
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+                {
+                    SpawnBullet();
+                }
+            }
+            else // Automatic
+            {
+                // Automatic: fire continuously at FIRE_RATE while holding
+                if (spacePressed || mousePressed)
+                {
+                    fireTimer -= Time.deltaTime;
+                    if (fireTimer <= 0f)
+                    {
+                        SpawnBullet();
+                        fireTimer = fireInterval;
+                    }
+                }
+            }
+        }
+    }
+
+    private void SpawnBullet()
+    {
+        if (bulletPrefab != null && game != null)
+        {
+            GameObject newBulletObj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+            Bullet newBullet = newBulletObj.GetComponent<Bullet>();
+            if (newBullet != null)
+            {
+                game.bullets.Add(newBullet);
+            }
+        }
     }
 
     /// <summary>

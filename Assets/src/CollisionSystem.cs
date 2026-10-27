@@ -33,12 +33,15 @@ public class CollisionSystem : MonoBehaviour
             {
                 foreach (Enemy e in enemies)
                 {
-                    if (e != null && e.isAlive && bulletHitsEnemy(b, e))
+                    if (e != null && e.isAlive )
                     {
-                        e.takeDamage(b.getDamage());             // US-005: effect + health reduction
-                        Destroy(b.gameObject);
-                        bullets.RemoveAt(i);
-                        break;
+                        if (bulletHitsEnemy(b, e))
+                        {
+                            e.takeDamage(b.getDamage());             // US-005: effect + health reduction
+                            Destroy(b.gameObject);
+                            bullets.RemoveAt(i);
+                            break;
+                        }
                     }
                 }
             }
