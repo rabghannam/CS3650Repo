@@ -22,6 +22,9 @@ public class CollisionSystem : MonoBehaviour
     public bool bulletHitsPlayer(Bullet bullet, Player player) =>
         bullet.owner == Bullet.Owner.Enemy && checkPixelPerfect(bullet.GetComponent<Collider2D>(), player.GetComponent<Collider2D>());
 
+    public bool playerHitsEnemy(Player player, Enemy enemy) =>
+        checkPixelPerfect(player.GetComponent<Collider2D>(), enemy.GetComponent<Collider2D>());
+
     /// <summary>Called by Game each frame: resolves all bullet-entity collisions.</summary>
     public void resolveCollisions(List<Bullet> bullets, List<Enemy> enemies, Player player)
     {
@@ -45,11 +48,17 @@ public class CollisionSystem : MonoBehaviour
                     }
                 }
             }
-            else if (player != null && player.isAlive() && bulletHitsPlayer(b, player))
+        }
+
+        // Player takes damage on direct collision with enemy
+        if (player != null && player.isAlive())
+        {
+            foreach (Enemy e in enemies)
             {
-                player.takeDamage(b.getDamage());                // US-006: instant 1 damage
-                Destroy(b.gameObject);
-                bullets.RemoveAt(i);
+                if (e != null && e.isAlive && playerHitsEnemy(player, e))
+                {
+                    player.takeDamage(1);
+                }
             }
         }
     }
