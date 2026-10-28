@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5517594078398602729}
   - component: {fileID: 8397784853121902830}
   - component: {fileID: 2799838728772717893}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Nonagon Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}

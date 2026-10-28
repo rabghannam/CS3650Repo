@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1302024214543443373}
   - component: {fileID: 6894813958129487953}
   - component: {fileID: 3159057767771308252}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Octagon enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2089977370924854442}
   - component: {fileID: 4456540794040421223}
   - component: {fileID: 6589778932438026850}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Heptagon Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
