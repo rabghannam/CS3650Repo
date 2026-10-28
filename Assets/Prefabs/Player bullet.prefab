@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4356093737788721467}
   - component: {fileID: 391598573827061218}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: Player bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -102,7 +102,7 @@ MonoBehaviour:
   owner: 0
   damage: 1
   lifetime: 5
-  velocity: {x: 5, y: 0}
+  velocity: {x: 10, y: 0}
 --- !u!50 &4356093737788721467
 Rigidbody2D:
   serializedVersion: 4

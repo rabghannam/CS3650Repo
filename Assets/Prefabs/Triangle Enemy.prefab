@@ -102,8 +102,12 @@ MonoBehaviour:
   health: 3
   hitFlashColor: {r: 1, g: 1, b: 1, a: 1}
   hitFlashDuration: 0.15
+  lifetime: 5
   isAlive: 1
   moveSpeed: 5
+  bulletPrefab: {fileID: 1662998760038082472, guid: 79c0e106e91a85e4ba043bc67158c24c, type: 3}
+  fireInterval: 1
+  game: {fileID: 0}
 --- !u!50 &45407036879113291
 Rigidbody2D:
   serializedVersion: 4

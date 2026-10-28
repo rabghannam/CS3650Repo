@@ -2,20 +2,20 @@ using UnityEngine;
 
 public class Player : GameObjectBase
 {
-    [Header("Movement — US-001")]
+    [Header("Movement ï¿½ US-001")]
     public const float BASE_SPEED = 300f;        // units (pixels) per second
     public float moveSpeed = BASE_SPEED;
 
-    [Header("Health — US-006 / US-011")]
+    [Header("Health ï¿½ US-006 / US-011")]
     public const int BASE_HEALTH = 50;
     public int health = BASE_HEALTH;
     public int maxHealth = BASE_HEALTH;
 
-    [Header("I-frames — US-009 (matches red flash)")]
+    [Header("I-frames ï¿½ US-009 (matches red flash)")]
     public const float IFRAME_DURATION = 1f;
     public float iFrameTimer;
 
-    [Header("Death — US-008")]
+    [Header("Death ï¿½ US-008")]
     public GameObject deathEffectPrefab;
     public float deathEffectDuration = 1.5f;
 
@@ -61,7 +61,7 @@ public class Player : GameObjectBase
                 break;
 
             case PlayerState.GameOver:
-                // Player cannot move or fire after death — no input accepted.
+                // Player cannot move or fire after death ï¿½ no input accepted.
                 break;
         }
     }
@@ -100,14 +100,11 @@ public class Player : GameObjectBase
             else // Automatic
             {
                 // Automatic: fire continuously at FIRE_RATE while holding
-                if (spacePressed || mousePressed)
+                fireTimer -= Time.deltaTime;
+                if (fireTimer <= 0f)
                 {
-                    fireTimer -= Time.deltaTime;
-                    if (fireTimer <= 0f)
-                    {
-                        SpawnBullet();
-                        fireTimer = fireInterval;
-                    }
+                    SpawnBullet();
+                    fireTimer = fireInterval;
                 }
             }
         }
