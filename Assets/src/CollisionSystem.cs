@@ -51,13 +51,14 @@ public class CollisionSystem : MonoBehaviour
         }
 
         // Player takes damage on direct collision with enemy
-        if (player != null && player.isAlive())
+        if (player != null && player.state == Player.PlayerState.Alive)
         {
             foreach (Enemy e in enemies)
             {
                 if (e != null && e.isAlive && playerHitsEnemy(player, e))
                 {
                     player.takeDamage(1);
+                    break;
                 }
             }
         }
