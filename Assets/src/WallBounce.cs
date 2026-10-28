@@ -8,17 +8,47 @@ public class WallBounce : MonoBehaviour
     private LayerMask bounceLayerMask;
     [SerializeField]
     private float bounceForce = 5.0f;
+    [SerializeField]
+    private float bounceDuration = 0.2f;
+
+    private InputHandler inputHandler;
+    private Vector2 bounceDirection;
+    private float bounceTimer = 0f;
+
+    void Start()
+    {
+        inputHandler = GetComponent<InputHandler>();
+    }
+
+    void Update()
+    {
+        if (bounceTimer > 0)
+        {
+            transform.Translate(bounceDirection * bounceForce * Time.deltaTime, Space.World);
+            bounceTimer -= Time.deltaTime;
+
+            if (bounceTimer <= 0 && inputHandler != null)
+            {
+                inputHandler.enabled = true;
+            }
+        }
+    }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if ((bounceLayerMask.value & (1 << collision.gameObject.layer)) != 0)
+        if ((bounceLayerMask.value & (1 << collision.gameObject.layer)) != 0 && inputHandler != null)
         {
-            Rigidbody2D rb = GetComponent<Rigidbody2D>();
-            if (rb != null && collision.contacts.Length > 0)
+            if (collision.contacts.Length > 0)
             {
                 Vector2 normal = collision.contacts[0].normal;
-                Vector2 reflectedVelocity = Vector2.Reflect(rb.velocity.normalized, normal);
-                rb.velocity = reflectedVelocity * bounceForce;
+                InputHandler.InputState state = inputHandler.readKeyboard();
+                
+                if (state.moveDirection.magnitude > 0.1f)
+                {
+                    bounceDirection = Vector2.Reflect(state.moveDirection, normal).normalized;
+                    inputHandler.enabled = false;
+                    bounceTimer = bounceDuration;
+                }
             }
         }
     }
