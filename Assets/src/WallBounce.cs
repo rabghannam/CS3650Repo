@@ -13,7 +13,9 @@ public class WallBounce : MonoBehaviour
 
     private InputHandler inputHandler;
     private Vector2 bounceDirection;
+    private float bounceSpeed;
     private float bounceTimer = 0f;
+    private const float bounceDamping = 0.8f;
 
     void Start()
     {
@@ -24,7 +26,7 @@ public class WallBounce : MonoBehaviour
     {
         if (bounceTimer > 0)
         {
-            transform.Translate(bounceDirection * bounceForce * Time.deltaTime, Space.World);
+            transform.Translate(bounceDirection * bounceSpeed * Time.deltaTime, Space.World);
             bounceTimer -= Time.deltaTime;
 
             if (bounceTimer <= 0 && inputHandler != null)
@@ -46,6 +48,7 @@ public class WallBounce : MonoBehaviour
                 if (state.moveDirection.magnitude > 0.1f)
                 {
                     bounceDirection = Vector2.Reflect(state.moveDirection, normal).normalized;
+                    bounceSpeed = bounceForce * bounceDamping;
                     inputHandler.enabled = false;
                     bounceTimer = bounceDuration;
                 }
