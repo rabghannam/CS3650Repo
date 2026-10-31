@@ -40,6 +40,10 @@ public class Player : GameObjectBase
 
     public override void CustomUpdate(float deltaTime)
     {
+        // Don't process input if game is paused or over
+        if (game != null && game.pauseMenu != null && game.pauseMenu.IsPaused) return;
+        if (isDead) return;
+
         switch (state)
         {
             case PlayerState.Alive:
