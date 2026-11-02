@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7008222506887259722}
   - component: {fileID: 2535455705719460324}
   - component: {fileID: 5691932253229892856}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Pentagon Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
