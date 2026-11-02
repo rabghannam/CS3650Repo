@@ -404,6 +404,7 @@ MonoBehaviour:
   health: 3
   hitFlashColor: {r: 1, g: 1, b: 1, a: 1}
   hitFlashDuration: 0.15
+  lifetime: 5
   isAlive: 1
 --- !u!61 &91912232
 BoxCollider2D:
@@ -546,8 +547,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e55e4ad062945a142b0ffbaca17a181e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 2191762196546282715, guid: d1d0f76dfc9620f4c8567a22ce8f340b, type: 3}
-  spawnInterval: 2
+  enemyPrefabs:
+  - {fileID: 2191762196546282715, guid: d1d0f76dfc9620f4c8567a22ce8f340b, type: 3}
+  - {fileID: 5083171992016327784, guid: 643b1e37a21c4c94a91927230f3e4ba3, type: 3}
+  - {fileID: 8529914847104006675, guid: 19764ac155e149c41bb868f650c65c3c, type: 3}
+  - {fileID: 323817934880782436, guid: 700a55a4121486241a9b5ac1dddede88, type: 3}
+  - {fileID: 172026379412832903, guid: 698a02ee240b9cc4397c045f546a57a7, type: 3}
+  - {fileID: 1889910463200315730, guid: 244566eccb9a2e04ba6808f3e52e0120, type: 3}
+  - {fileID: 7528828839047574661, guid: a7f018bb065a83b41a15c893f4cddff4, type: 3}
+  initialSpawnInterval: 5
+  minSpawnInterval: 0.5
+  spawnIntervalDecreaseRate: 0.01
   minY: -5
   maxY: 5
   game: {fileID: 346236473}
@@ -719,7 +729,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -335, y: 193.68}
+  m_AnchoredPosition: {x: -335, y: 168}
   m_SizeDelta: {x: 130, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &339115785
@@ -791,8 +801,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5fc339560f4bbf4caab3d2b455df96d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBarFill: {fileID: 0}
-  healthText: {fileID: 0}
+  healthBarFill: {fileID: 339115785}
+  healthText: {fileID: 1585714425}
   flashOverlay: {fileID: 21545235}
   flashMaxAlpha: 0.45
 --- !u!114 &346236472
@@ -824,7 +834,7 @@ MonoBehaviour:
   collisionSystem: {fileID: 346236472}
   hud: {fileID: 346236471}
   gameOverScreen: {fileID: 0}
-  pauseMenu: {fileID: 0}
+  pauseMenu: {fileID: 606732643}
   enemies:
   - {fileID: 91912231}
   bullets: []
@@ -1370,7 +1380,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -40.00003, y: 0}
+  m_AnchoredPosition: {x: -32.9, y: -3.1}
   m_SizeDelta: {x: 50, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1585714425

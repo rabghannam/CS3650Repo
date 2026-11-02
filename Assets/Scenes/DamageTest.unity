@@ -405,6 +405,7 @@ MonoBehaviour:
   health: 3
   hitFlashColor: {r: 1, g: 0, b: 0, a: 1}
   hitFlashDuration: 3
+  lifetime: 5
   isAlive: 1
 --- !u!61 &91912232
 BoxCollider2D:
@@ -547,8 +548,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e55e4ad062945a142b0ffbaca17a181e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 2191762196546282715, guid: d1d0f76dfc9620f4c8567a22ce8f340b, type: 3}
-  spawnInterval: 2
+  enemyPrefabs:
+  - {fileID: 2191762196546282715, guid: d1d0f76dfc9620f4c8567a22ce8f340b, type: 3}
+  initialSpawnInterval: 5
+  minSpawnInterval: 0.5
+  spawnIntervalDecreaseRate: 0.01
   minY: -5
   maxY: 5
   game: {fileID: 346236473}
@@ -690,6 +694,7 @@ MonoBehaviour:
   collisionSystem: {fileID: 346236472}
   hud: {fileID: 738838497}
   gameOverScreen: {fileID: 0}
+  pauseMenu: {fileID: 0}
   enemies:
   - {fileID: 91912231}
   bullets: []
