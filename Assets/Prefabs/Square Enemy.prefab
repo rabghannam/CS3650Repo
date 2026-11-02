@@ -102,8 +102,9 @@ MonoBehaviour:
   health: 4
   hitFlashColor: {r: 1, g: 1, b: 1, a: 1}
   hitFlashDuration: 0.15
+  lifetime: 5
   isAlive: 1
-  moveSpeed: 100
+  moveSpeed: 5
   health: 4
 --- !u!50 &8474124619648583904
 Rigidbody2D:

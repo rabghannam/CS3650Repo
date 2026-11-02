@@ -33,7 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &809979495773759334
 SpriteRenderer:
@@ -102,8 +102,9 @@ MonoBehaviour:
   health: 7
   hitFlashColor: {r: 1, g: 1, b: 1, a: 1}
   hitFlashDuration: 0.15
+  lifetime: 5
   isAlive: 1
-  moveSpeed: 100
+  moveSpeed: 5
   health: 7
 --- !u!50 &4456540794040421223
 Rigidbody2D:
