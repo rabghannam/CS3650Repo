@@ -18,12 +18,14 @@ public class Enemy : GameObjectBase
     private Color originalColor;
     private float hitFlashTimer;
     private float lifetimeTimer;
+    private int _startingHealth;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer != null) originalColor = spriteRenderer.color;
         lifetimeTimer = lifetime;
+        _startingHealth = health; // Store original health for money calculation
     }
 
     public override void CustomUpdate(float deltaTime)
@@ -62,6 +64,17 @@ public class Enemy : GameObjectBase
     private void Die()
     {
         isAlive = false;
+        
+        // Award money based on enemy's starting health (which represents "sides")
+        // From GDD: "Asteroid destruction | 10 × sides | ×1"
+        int moneyReward = 10 * _startingHealth;
+        
+        ProgressManager progressManager = ProgressManager.Instance;
+        if (progressManager != null)
+        {
+            progressManager.AddMoney(moneyReward);
+        }
+        
         Destroy(gameObject);
     }
 }

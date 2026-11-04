@@ -22,6 +22,16 @@ public class Game : MonoBehaviour
         player.game = this;
         player.input = inputHandler;
         player.hud = hud;
+        
+        // Load upgrades from ProgressManager
+        ProgressManager progressManager = ProgressManager.Instance;
+        if (progressManager != null)
+        {
+            player.maxHealth = progressManager.GetActualMaxHealth();
+            player.health = player.maxHealth;
+            // Note: Fire rate and damage upgrades are stored and applied where needed
+        }
+        
         hud.updateHealth(player.health, player.maxHealth);       // initial HUD state (US-011)
     }
 

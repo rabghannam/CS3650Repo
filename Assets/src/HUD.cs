@@ -7,6 +7,9 @@ public class HUD : MonoBehaviour
     public Image healthBarFill;
     public Text healthText;
 
+    [Header("Money display")]
+    public Text moneyText;
+
     [Header("Red flash — US-009")]
     public Image flashOverlay;                 // full-screen Image, stretch to canvas
     public const float FLASH_DURATION = 1f;    // exactly 1 second, matches i-frames
@@ -28,6 +31,9 @@ public class HUD : MonoBehaviour
             SetFlashAlpha(flashMaxAlpha * t);
             if (flashTimer <= 0f) SetFlashAlpha(0f);
         }
+        
+        // Keep money display updated in real-time
+        UpdateMoney();
     }
 
     /// <summary>US-011: real-time health bar + current/max values + color gradient.</summary>
@@ -42,6 +48,18 @@ public class HUD : MonoBehaviour
         }
         if (healthText != null)
             healthText.text = current + " / " + max;
+        
+        UpdateMoney();
+    }
+
+    /// <summary>Update money display from ProgressManager.</summary>
+    public void UpdateMoney()
+    {
+        ProgressManager progressManager = ProgressManager.Instance;
+        if (progressManager != null && moneyText != null)
+        {
+            moneyText.text = "Money: " + progressManager.Money;
+        }
     }
 
     /// <summary>Gradient: green (100%) -> yellow (50%) -> red (25% and below).</summary>
