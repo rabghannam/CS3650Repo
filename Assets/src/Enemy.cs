@@ -19,6 +19,18 @@ public class Enemy : GameObjectBase
 
     [Header("Lifetime")]
     public float lifetime = 5f;
+    [Header("Item Drops")]
+    [Tooltip("80% chance to drop money")]
+    public float moneyDropRate = 0.80f;
+    [Tooltip("15% chance to drop temporary upgrade")]
+    public float upgradeDropRate = 0.15f;
+    [Tooltip("5% chance to drop nothing")]
+    public float noDropRate = 0.05f;
+    
+    [Tooltip("Prefab to instantiate when dropping money")]
+    public GameObject moneyPrefab;
+    [Tooltip("Prefab to instantiate when dropping temporary upgrade")]
+    public GameObject temporaryUpgradePrefab;
 
     [HideInInspector] public bool isAlive = true;
 
@@ -137,5 +149,17 @@ public class Enemy : GameObjectBase
         }
         
         Destroy(gameObject);
+    }
+    
+    /// <summary>
+    /// Drops an item at the enemy's current position.
+    /// </summary>
+    /// <param name="prefab">The prefab to instantiate</param>
+    private void DropItem(GameObject prefab)
+    {
+        if (prefab != null)
+        {
+            Instantiate(prefab, transform.position, Quaternion.identity);
+        }
     }
 }

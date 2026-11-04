@@ -103,6 +103,11 @@ MonoBehaviour:
   hitFlashColor: {r: 1, g: 1, b: 1, a: 1}
   hitFlashDuration: 0.15
   lifetime: 5
+  moneyDropRate: 0.8
+  upgradeDropRate: 0.15
+  noDropRate: 0.05
+  moneyPrefab: {fileID: 6845783306417466720, guid: a20726a8edc21f048ab93a7c24726f39, type: 3}
+  temporaryUpgradePrefab: {fileID: 5482387443249911056, guid: 5b683f7d19c10e340b12e0da7c8c435b, type: 3}
   isAlive: 1
   moveSpeed: 5
   health: 9
