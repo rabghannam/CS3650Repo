@@ -407,6 +407,10 @@ MonoBehaviour:
   hitFlashDuration: 0.15
   lifetime: 5
   isAlive: 1
+  spriteRenderer: {fileID: 0}
+  originalColor: {r: 0, g: 0, b: 0, a: 0}
+  hitFlashTimer: 0
+  lifetimeTimer: 0
 --- !u!61 &91912232
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -550,13 +554,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefabs:
   - {fileID: 2191762196546282715, guid: d1d0f76dfc9620f4c8567a22ce8f340b, type: 3}
-  - {fileID: 8529914847104006675, guid: 19764ac155e149c41bb868f650c65c3c, type: 3}
-  - {fileID: 1889910463200315730, guid: 244566eccb9a2e04ba6808f3e52e0120, type: 3}
-  - {fileID: 7528828839047574661, guid: a7f018bb065a83b41a15c893f4cddff4, type: 3}
-  - {fileID: 5083171992016327784, guid: 643b1e37a21c4c94a91927230f3e4ba3, type: 3}
-  - {fileID: 2936569410471057383, guid: c841ca640cc93684ca6cfeb256a32121, type: 3}
-  - {fileID: 172026379412832903, guid: 698a02ee240b9cc4397c045f546a57a7, type: 3}
-  - {fileID: 323817934880782436, guid: 700a55a4121486241a9b5ac1dddede88, type: 3}
   initialSpawnInterval: 5
   minSpawnInterval: 0.5
   spawnIntervalDecreaseRate: 0.05

@@ -7,10 +7,25 @@ public class TriangleEnemy : Enemy
 
     [Header("Shooting")]
     public GameObject bulletPrefab;
+    public float bulletSpeed = 200f;
+    [Range(0f, 180f)]
+    public float bulletSpreadAngle = 30f; // total spread angle between outermost bullets
     public float fireInterval = 1f; // seconds between shots
     private float fireTimer;
 
-    [HideInInspector] public Game game;
+    public Game game;
+
+    private void Awake()
+    {
+        if (game == null)
+        {
+            game = FindObjectOfType<Game>();
+        }
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null) originalColor = spriteRenderer.color;
+        lifetimeTimer = lifetime;
+    }
 
     public override void CustomUpdate(float deltaTime)
     {
@@ -35,11 +50,21 @@ public class TriangleEnemy : Enemy
     {
         if (bulletPrefab != null && game != null)
         {
-            GameObject newBulletObj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-            Bullet newBullet = newBulletObj.GetComponent<Bullet>();
-            if (newBullet != null)
+            // Spawn 3 bullets with configurable spread (centered at 180° = left)
+            float halfSpread = bulletSpreadAngle * 0.5f;
+            float[] angles = { 180f - halfSpread, 180f, 180f + halfSpread };
+            foreach (float angle in angles)
             {
-                game.bullets.Add(newBullet);
+                Quaternion rotation = Quaternion.Euler(0, 0, angle);
+                GameObject newBulletObj = Instantiate(bulletPrefab, transform.position, rotation);
+                Bullet newBullet = newBulletObj.GetComponent<Bullet>();
+                if (newBullet != null)
+                {
+                    // Set velocity based on bullet's rotation (move in local forward direction)
+                    newBullet.velocity = newBulletObj.transform.right * bulletSpeed;
+                    newBullet.owner = Bullet.Owner.Enemy;
+                    game.bullets.Add(newBullet);
+                }
             }
         }
     }
