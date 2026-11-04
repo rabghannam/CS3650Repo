@@ -406,6 +406,11 @@ MonoBehaviour:
   hitFlashColor: {r: 1, g: 0, b: 0, a: 1}
   hitFlashDuration: 3
   lifetime: 5
+  moneyDropRate: 0.8
+  upgradeDropRate: 0.15
+  noDropRate: 0.05
+  moneyPrefab: {fileID: 6845783306417466720, guid: a20726a8edc21f048ab93a7c24726f39, type: 3}
+  temporaryUpgradePrefab: {fileID: 0}
   isAlive: 1
 --- !u!61 &91912232
 BoxCollider2D:
