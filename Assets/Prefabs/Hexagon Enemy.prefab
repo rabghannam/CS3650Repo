@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2241689142848925983}
   - component: {fileID: 266935825957246194}
   - component: {fileID: 115064637827537964}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Hexagon Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,6 +102,7 @@ MonoBehaviour:
   health: 6
   hitFlashColor: {r: 1, g: 1, b: 1, a: 1}
   hitFlashDuration: 0.15
+  lifetime: 5
   isAlive: 1
   moveSpeed: 5
   health: 6

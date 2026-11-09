@@ -9,6 +9,7 @@ public class Game : MonoBehaviour
     public CollisionSystem collisionSystem;
     public HUD hud;
     public GameOverScreen gameOverScreen;
+    public PauseMenu pauseMenu;
 
     [Header("Entities")]
     public List<Enemy> enemies = new List<Enemy>();
@@ -27,6 +28,7 @@ public class Game : MonoBehaviour
     private void Update()
     {
         if (isGameOver) return;
+        if (pauseMenu != null && pauseMenu.IsPaused) return;
 
         // 1. Entities update themselves (movement, timers) — frame-rate independent.
         // 2. Per-frame collision checks (sequence diagram: Game -> CollisionSystem).

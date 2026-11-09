@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 773629353956392146}
   - component: {fileID: 8818242882479439597}
   - component: {fileID: 5336795237568258473}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Decagon Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,6 +102,7 @@ MonoBehaviour:
   health: 10
   hitFlashColor: {r: 1, g: 1, b: 1, a: 1}
   hitFlashDuration: 0.15
+  lifetime: 5
   isAlive: 1
   moveSpeed: 5
   health: 10

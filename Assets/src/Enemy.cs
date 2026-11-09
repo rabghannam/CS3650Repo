@@ -5,20 +5,25 @@ public class Enemy : GameObjectBase
     [Header("Health")]
     public int health = 3;
 
-    [Header("Hit feedback — US-005")]
+    [Header("Hit feedback ï¿½ US-005")]
     public Color hitFlashColor = Color.white;
     public float hitFlashDuration = 0.15f;
 
+    [Header("Lifetime")]
+    public float lifetime = 5f;
+
     [HideInInspector] public bool isAlive = true;
 
-    private SpriteRenderer spriteRenderer;
-    private Color originalColor;
-    private float hitFlashTimer;
+    public SpriteRenderer spriteRenderer;
+    public Color originalColor;
+    public float hitFlashTimer;
+    public float lifetimeTimer;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer != null) originalColor = spriteRenderer.color;
+        lifetimeTimer = lifetime;
     }
 
     public override void CustomUpdate(float deltaTime)
@@ -28,6 +33,13 @@ public class Enemy : GameObjectBase
             hitFlashTimer -= deltaTime;                          // frame-rate independent
             if (hitFlashTimer <= 0f && spriteRenderer != null)
                 spriteRenderer.color = originalColor;            // effect clearly visible then removed
+        }
+
+        // Count down lifetime
+        lifetimeTimer -= deltaTime;
+        if (lifetimeTimer <= 0f)
+        {
+            Destroy(gameObject);
         }
     }
 
