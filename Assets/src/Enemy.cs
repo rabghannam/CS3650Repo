@@ -20,17 +20,17 @@ public class Enemy : GameObjectBase
     [Header("Lifetime")]
     public float lifetime = 5f;
     [Header("Item Drops")]
-    [Tooltip("80% chance to drop money")]
-    public float moneyDropRate = 0.80f;
-    [Tooltip("15% chance to drop temporary upgrade")]
-    public float upgradeDropRate = 0.15f;
+    [Tooltip("65% chance to drop money")]
+    public float moneyDropRate = 0.65f;
+    [Tooltip("30% chance to drop powerup (RapidFire, HealthBoost, DamageAmplifier, Magnet, Shield)")]
+    public float powerupDropRate = 0.30f;
     [Tooltip("5% chance to drop nothing")]
     public float noDropRate = 0.05f;
     
     [Tooltip("Prefab to instantiate when dropping money")]
     public GameObject moneyPrefab;
-    [Tooltip("Prefab to instantiate when dropping temporary upgrade")]
-    public GameObject temporaryUpgradePrefab;
+    [Tooltip("Prefab to instantiate when dropping powerup")]
+    public GameObject powerupPrefab;
 
     [HideInInspector] public bool isAlive = true;
 
@@ -141,14 +141,44 @@ public class Enemy : GameObjectBase
         // Award money based on enemy's starting health (which represents "sides")
         // From GDD: "Asteroid destruction | 10 � sides | �1"
         int moneyReward = 10 * _startingHealth;
+        // US: Enemy item drops - each enemy drops exactly one item based on defined percentages
+        // Total drop rate: 100% (80% money + 15% powerup + 5% no drop)
+        float dropRoll = Random.value;
+        float cumulativeRate = 0f;
         
         ProgressManager progressManager = ProgressManager.Instance;
         if (progressManager != null)
         {
             progressManager.AddMoney(moneyReward);
         }
+        // Check powerup drop (15%)
+        else if (dropRoll < cumulativeRate + powerupDropRate)
+        {
+            DropPowerup();
+        }
+        // else: no drop (5%)
         
         Destroy(gameObject);
+    }
+    
+    /// <summary>
+    /// Drops a random powerup at the enemy's current position.
+    /// </summary>
+    private void DropPowerup()
+    {
+        if (powerupPrefab != null)
+        {
+            GameObject powerupObj = Instantiate(powerupPrefab, transform.position, Quaternion.identity);
+            Powerup powerup = powerupObj.GetComponent<Powerup>();
+            if (powerup != null)
+            {
+                // Set a random powerup type
+                powerup.powerupType = Powerup.GetRandomPowerupType();
+                // Update color based on type
+                powerup.SetColorByType();
+                Debug.Log("Dropped powerup: " + powerup.powerupType.ToString());
+            }
+        }
     }
     
     /// <summary>

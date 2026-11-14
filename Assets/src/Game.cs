@@ -14,6 +14,7 @@ public class Game : MonoBehaviour
     [Header("Entities")]
     public List<Enemy> enemies = new List<Enemy>();
     public List<Bullet> bullets = new List<Bullet>();
+    public List<Powerup> powerups = new List<Powerup>();
 
     public bool isGameOver { get; private set; }
 
@@ -63,5 +64,6 @@ public class Game : MonoBehaviour
         // Remove destroyed entities from lists
         enemies.RemoveAll(e => e == null);
         bullets.RemoveAll(b => b == null);
+        powerups.RemoveAll(p => p == null);
     }
 }

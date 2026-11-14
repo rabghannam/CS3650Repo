@@ -25,6 +25,20 @@ public class Player : GameObjectBase
     public enum FireMode { Manual, Automatic }
     public FireMode fireMode = FireMode.Manual;
     private float fireTimer;
+    
+    [Header("Powerups")]
+    private float rapidFireMultiplier = 1f;
+    private float damageMultiplier = 1f;
+    private bool hasMagnet = false;
+    private float magnetRange = 200f;
+    private float magnetSpeed = 300f;
+    private bool hasShield = false;
+    
+    // Timers for temporary powerups
+    private float rapidFireTimer = 0f;
+    private float damageAmplifierTimer = 0f;
+    private float magnetTimer = 0f;
+    private float shieldTimer = 0f;
 
     // State machine states
     public enum PlayerState { Alive, Invulnerable, Dying, GameOver }
@@ -86,6 +100,9 @@ public class Player : GameObjectBase
             fireTimer = 0f; // Reset timer to fire immediately on mode change
         }
 
+        // Update powerup timers
+        UpdatePowerupTimers(Time.deltaTime);
+
         // Shooting logic
         bool spacePressed = Input.GetKey(KeyCode.Space);
         bool mousePressed = Input.GetMouseButton(0);
@@ -121,6 +138,65 @@ public class Player : GameObjectBase
             }
         }
     }
+    
+    /// <summary>
+    /// Updates all active powerup timers
+    /// </summary>
+    private void UpdatePowerupTimers(float deltaTime)
+    {
+        // Update rapid fire timer
+        if (rapidFireTimer > 0f)
+        {
+            rapidFireTimer -= deltaTime;
+            if (rapidFireTimer <= 0f)
+            {
+                rapidFireMultiplier = 1f;
+                rapidFireTimer = 0f;
+                Debug.Log("Rapid Fire expired");
+            }
+        }
+        
+        // Update damage amplifier timer
+        if (damageAmplifierTimer > 0f)
+        {
+            damageAmplifierTimer -= deltaTime;
+            if (damageAmplifierTimer <= 0f)
+            {
+                damageMultiplier = 1f;
+                damageAmplifierTimer = 0f;
+                Debug.Log("Damage Amplifier expired");
+            }
+        }
+        
+        // Update magnet timer
+        if (magnetTimer > 0f)
+        {
+            magnetTimer -= deltaTime;
+            if (magnetTimer <= 0f)
+            {
+                hasMagnet = false;
+                magnetTimer = 0f;
+                Debug.Log("Magnet expired");
+            }
+        }
+        
+        // Update shield timer
+        if (shieldTimer > 0f)
+        {
+            shieldTimer -= deltaTime;
+            if (shieldTimer <= 0f)
+            {
+                hasShield = false;
+                shieldTimer = 0f;
+                // Don't override state if player is in another state
+                if (state == PlayerState.Invulnerable && iFrameTimer <= 0f)
+                {
+                    state = PlayerState.Alive;
+                }
+                Debug.Log("Shield expired");
+            }
+        }
+    }
 
     private void SpawnBullet()
     {
@@ -140,13 +216,104 @@ public class Player : GameObjectBase
             }
         }
     }
+    
+    #region Powerup Methods
+    
+    /// <summary>
+    /// Activates rapid fire powerup
+    /// </summary>
+    public void ActivateRapidFire(float multiplier, float duration)
+    {
+        rapidFireMultiplier = multiplier;
+        rapidFireTimer = duration;
+        Debug.Log("Rapid Fire activated! Fire rate multiplier: " + multiplier);
+    }
+    
+    /// <summary>
+    /// Applies instant health boost
+    /// </summary>
+    public void ApplyHealthBoost(int amount)
+    {
+        health = Mathf.Min(maxHealth, health + amount);
+        hud.updateHealth(health, maxHealth);
+        Debug.Log("Health boost! +" + amount + " health. Current: " + health);
+    }
+    
+    /// <summary>
+    /// Activates damage amplifier powerup
+    /// </summary>
+    public void ActivateDamageAmplifier(float multiplier, float duration)
+    {
+        damageMultiplier = multiplier;
+        damageAmplifierTimer = duration;
+        Debug.Log("Damage Amplifier activated! Damage multiplier: " + multiplier);
+    }
+    
+    /// <summary>
+    /// Activates magnet powerup
+    /// </summary>
+    public void ActivateMagnet(float range, float speed, float duration)
+    {
+        hasMagnet = true;
+        magnetRange = range;
+        magnetSpeed = speed;
+        magnetTimer = duration;
+        Debug.Log("Magnet activated! Range: " + range + ", Speed: " + speed);
+    }
+    
+    /// <summary>
+    /// Activates shield powerup (invincibility)
+    /// </summary>
+    public void ActivateShield(float duration)
+    {
+        hasShield = true;
+        shieldTimer = duration;
+        state = PlayerState.Invulnerable;
+        iFrameTimer = duration;
+        Debug.Log("Shield activated! Duration: " + duration);
+    }
+    
+    /// <summary>
+    /// Returns the current fire rate multiplier (affected by RapidFire powerup)
+    /// </summary>
+    public float GetFireRateMultiplier()
+    {
+        return rapidFireMultiplier;
+    }
+    
+    /// <summary>
+    /// Returns whether magnet is active
+    /// </summary>
+    public bool HasMagnet()
+    {
+        return hasMagnet;
+    }
+    
+    /// <summary>
+    /// Gets magnet parameters
+    /// </summary>
+    public void GetMagnetParams(out float range, out float speed)
+    {
+        range = magnetRange;
+        speed = magnetSpeed;
+    }
+    
+    #endregion
 
     /// <summary>
     /// US-006: exactly 1 damage per enemy bullet hit, applied instantly,
     /// clamped so health never drops below 0. US-008: death at 0.
+    /// Shield powerup blocks all damage.
     /// </summary>
     public void takeDamage(int amount)
     {
+        // Shield powerup blocks all damage
+        if (hasShield)
+        {
+            Debug.Log("Shield blocked damage!");
+            return;
+        }
+        
         if (state == PlayerState.Alive)
         {
             health = Mathf.Max(0, health - amount);              // instant, clamped at 0
