@@ -405,6 +405,11 @@ MonoBehaviour:
   hitFlashColor: {r: 1, g: 1, b: 1, a: 1}
   hitFlashDuration: 0.15
   lifetime: 5
+  moneyDropRate: 0.8
+  powerupDropRate: 0.15
+  noDropRate: 0.05
+  moneyPrefab: {fileID: 0}
+  powerupPrefab: {fileID: 0}
   isAlive: 1
   spriteRenderer: {fileID: 0}
   originalColor: {r: 0, g: 0, b: 0, a: 0}
@@ -844,6 +849,7 @@ MonoBehaviour:
   enemies:
   - {fileID: 91912231}
   bullets: []
+  powerups: []
 --- !u!4 &346236474
 Transform:
   m_ObjectHideFlags: 0
@@ -1234,6 +1240,7 @@ GameObject:
   - component: {fileID: 1128961702}
   - component: {fileID: 1128961701}
   - component: {fileID: 1128961707}
+  - component: {fileID: 1128961708}
   m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
@@ -1433,6 +1440,21 @@ MonoBehaviour:
     m_Bits: 64
   bounceForce: 5
   bounceDuration: 0.2
+--- !u!114 &1128961708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1128961700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fe3fbef33f91a649a0155a86220bd97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  magnetRange: 200
+  magnetSpeed: 300
 --- !u!1 &1585714423
 GameObject:
   m_ObjectHideFlags: 0
