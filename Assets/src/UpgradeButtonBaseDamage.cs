@@ -106,9 +106,7 @@ public class UpgradeButtonBaseDamage : MonoBehaviour
             _progressManager.Money -= cost;
             _progressManager.BaseDamageLevel += 1;
             
-            // Apply the upgrade to bullet prefab (if needed)
-            // Note: This would need to be applied to the bullet prefab or player's bullet spawning logic
-            // For now, we just store it in ProgressManager
+            // Apply the upgrade - bullets get damage from ProgressManager via Player.SpawnBullet()
             
             RefreshButton();
             
