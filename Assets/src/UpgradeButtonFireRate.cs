@@ -106,13 +106,11 @@ public class UpgradeButtonFireRate : MonoBehaviour
             _progressManager.Money -= cost;
             _progressManager.FireRateLevel += 1;
             
-            // Apply the upgrade to player (if player exists in scene)
+            // Apply the upgrade - player reads from ProgressManager in handleInput()
             Player player = FindObjectOfType<Player>();
             if (player != null)
             {
-                // Update player's fire rate
-                // Note: This would need to be applied to the player's shooting logic
-                // For now, we just store it in ProgressManager
+                // Player will use GetActualFireRate() from ProgressManager on next shot
             }
             
             RefreshButton();

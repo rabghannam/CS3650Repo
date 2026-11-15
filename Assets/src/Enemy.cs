@@ -77,14 +77,18 @@ public class Enemy : GameObjectBase
     {
         isAlive = false;
         
-        // Award money based on enemy's starting health (which represents "sides")
-        // From GDD: "Asteroid destruction | 10 � sides | �1"
-        int moneyReward = 10 * _startingHealth;
-        
-        ProgressManager progressManager = ProgressManager.Instance;
-        if (progressManager != null)
+        // Drop exactly one money item with value based on asteroid sides (health)
+        // Money value scales linearly with asteroid sides: 10 * sides
+        if (moneyPrefab != null)
         {
-            progressManager.AddMoney(moneyReward);
+            GameObject moneyObj = Instantiate(moneyPrefab, transform.position, Quaternion.identity);
+            Money money = moneyObj.GetComponent<Money>();
+            if (money != null)
+            {
+                // Set money amount based on enemy's starting health (which represents "sides")
+                // From GDD: "Asteroid destruction | 10 × sides"
+                money.amount = 10 * _startingHealth;
+            }
         }
         
         Destroy(gameObject);
