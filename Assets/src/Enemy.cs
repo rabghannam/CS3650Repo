@@ -20,12 +20,10 @@ public class Enemy : GameObjectBase
     [Header("Lifetime")]
     public float lifetime = 5f;
     [Header("Item Drops")]
-    [Tooltip("65% chance to drop money")]
-    public float moneyDropRate = 0.65f;
-    [Tooltip("30% chance to drop powerup (RapidFire, HealthBoost, DamageAmplifier, Magnet, Shield)")]
-    public float powerupDropRate = 0.30f;
-    [Tooltip("5% chance to drop nothing")]
-    public float noDropRate = 0.05f;
+    [Tooltip("75% chance to drop money")]
+    public float moneyDropRate = 0.75f;
+    [Tooltip("25% chance to drop powerup")]
+    public float powerupDropRate = 0.25f;
     
     [Tooltip("Prefab to instantiate when dropping money")]
     public GameObject moneyPrefab;
@@ -138,32 +136,35 @@ public class Enemy : GameObjectBase
     {
         isAlive = false;
         
-        // Award money based on enemy's starting health (which represents "sides")
-        // From GDD: "Asteroid destruction | 10 � sides | �1"
-        int moneyReward = 10 * _startingHealth;
-        // US: Enemy item drops - each enemy drops exactly one item based on defined percentages
-        // Total drop rate: 100% (80% money + 15% powerup + 5% no drop)
+        // Determine what to drop based on drop rates
         float dropRoll = Random.value;
-        float cumulativeRate = 0f;
         
+        if (dropRoll < moneyDropRate)
+        {
+            // Drop money (75% chance)
+            if (moneyPrefab != null)
+            {
+                GameObject moneyObj = Instantiate(moneyPrefab, transform.position, Quaternion.identity);
+                Money money = moneyObj.GetComponent<Money>();
+                if (money != null)
+                {
+                    money.amount = 10 * _startingHealth;
+                }
+            }
+        }
+        else if (dropRoll < moneyDropRate + powerupDropRate)
+        {
+            // Drop powerup (25% chance)
+            DropPowerup();
+        }
+        // else: no drop (implicit, 0% since 75% + 25% = 100%)
+        
+        // Award base money for defeating enemy
         ProgressManager progressManager = ProgressManager.Instance;
         if (progressManager != null)
         {
-            GameObject moneyObj = Instantiate(moneyPrefab, transform.position, Quaternion.identity);
-            Money money = moneyObj.GetComponent<Money>();
-            if (money != null)
-            {
-                // Set money amount based on enemy's starting health (which represents "sides")
-                // From GDD: "Asteroid destruction | 10 × sides"
-                money.amount = 10 * _startingHealth;
-            }
+            progressManager.AddMoney(10 * _startingHealth);
         }
-        // Check powerup drop (15%)
-        else if (dropRoll < cumulativeRate + powerupDropRate)
-        {
-            DropPowerup();
-        }
-        // else: no drop (5%)
         
         Destroy(gameObject);
     }
@@ -188,15 +189,4 @@ public class Enemy : GameObjectBase
         }
     }
     
-    /// <summary>
-    /// Drops an item at the enemy's current position.
-    /// </summary>
-    /// <param name="prefab">The prefab to instantiate</param>
-    private void DropItem(GameObject prefab)
-    {
-        if (prefab != null)
-        {
-            Instantiate(prefab, transform.position, Quaternion.identity);
-        }
-    }
 }

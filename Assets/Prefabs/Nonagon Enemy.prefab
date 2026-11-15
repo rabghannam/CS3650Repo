@@ -102,15 +102,24 @@ MonoBehaviour:
   health: 9
   hitFlashColor: {r: 1, g: 1, b: 1, a: 1}
   hitFlashDuration: 0.15
+  useHealthColorGradient: 1
+  fullHealthColor: {r: 0, g: 1, b: 0, a: 1}
+  threeQuartersHealthColor: {r: 0.75, g: 1, b: 0.5, a: 1}
+  halfHealthColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  quarterHealthColor: {r: 1, g: 0.65, b: 0, a: 1}
+  lowHealthColor: {r: 1, g: 0, b: 0, a: 1}
   lifetime: 5
-  moneyDropRate: 0.8
-  powerupDropRate: 0.15
+  moneyDropRate: 0.4
+  powerupDropRate: 0
   noDropRate: 0.05
   moneyPrefab: {fileID: 6845783306417466720, guid: a20726a8edc21f048ab93a7c24726f39, type: 3}
   powerupPrefab: {fileID: 6217788530301447018, guid: 46c137657ad1a5f48a2cb3361ebedc7d, type: 3}
   isAlive: 1
+  spriteRenderer: {fileID: 0}
+  originalColor: {r: 0, g: 0, b: 0, a: 0}
+  hitFlashTimer: 0
+  lifetimeTimer: 0
   moveSpeed: 5
-  health: 9
 --- !u!50 &8397784853121902830
 Rigidbody2D:
   serializedVersion: 4
