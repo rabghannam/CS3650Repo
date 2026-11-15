@@ -5,8 +5,10 @@ public class SquareEnemy : Enemy
     [Header("Movement")]
     public float moveSpeed = 100f; // units per second
 
-    [Header("Health")]
-    public new int health = 4;
+    private void Start()
+    {
+        SetMaxHealth(4); // Set health for Square enemy (4 sides)
+    }
 
     [Header("Shooting")]
     public GameObject bulletPrefab;

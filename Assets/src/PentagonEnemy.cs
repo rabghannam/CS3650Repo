@@ -5,8 +5,10 @@ public class PentagonEnemy : Enemy
     [Header("Movement")]
     public float moveSpeed = 100f; // units per second
 
-    [Header("Health")]
-    public new int health = 5;
+    private void Start()
+    {
+        SetMaxHealth(5); // Set health for Pentagon enemy (5 sides)
+    }
 
     [Header("Shooting")]
     public GameObject bulletPrefab;

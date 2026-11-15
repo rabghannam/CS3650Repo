@@ -27,6 +27,11 @@ public class TriangleEnemy : Enemy
         lifetimeTimer = lifetime;
     }
 
+    private void Start()
+    {
+        SetMaxHealth(3); // Set health for Triangle enemy (3 sides)
+    }
+
     public override void CustomUpdate(float deltaTime)
     {
         base.CustomUpdate(deltaTime); // Keep hit flash effect from Enemy

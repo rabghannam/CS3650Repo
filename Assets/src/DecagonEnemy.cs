@@ -5,8 +5,10 @@ public class DecagonEnemy : Enemy
     [Header("Movement")]
     public float moveSpeed = 100f; // units per second
 
-    [Header("Health")]
-    public new int health = 10;
+    private void Start()
+    {
+        SetMaxHealth(10); // Set health for Decagon enemy (10 sides)
+    }
 
     public override void CustomUpdate(float deltaTime)
     {

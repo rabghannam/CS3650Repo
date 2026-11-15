@@ -5,8 +5,10 @@ public class OctagonEnemy : Enemy
     [Header("Movement")]
     public float moveSpeed = 100f; // units per second
 
-    [Header("Health")]
-    public new int health = 8;
+    private void Start()
+    {
+        SetMaxHealth(8); // Set health for Octagon enemy (8 sides)
+    }
 
     [Header("Shooting")]
     public GameObject bulletPrefab;

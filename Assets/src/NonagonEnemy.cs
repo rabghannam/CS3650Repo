@@ -5,8 +5,10 @@ public class NonagonEnemy : Enemy
     [Header("Movement")]
     public float moveSpeed = 100f; // units per second
 
-    [Header("Health")]
-    public new int health = 9;
+    private void Start()
+    {
+        SetMaxHealth(9); // Set health for Nonagon enemy (9 sides)
+    }
 
     public override void CustomUpdate(float deltaTime)
     {

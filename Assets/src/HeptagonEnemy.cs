@@ -5,8 +5,10 @@ public class HeptagonEnemy : Enemy
     [Header("Movement")]
     public float moveSpeed = 100f; // units per second
 
-    [Header("Health")]
-    public new int health = 7;
+    private void Start()
+    {
+        SetMaxHealth(7); // Set health for Heptagon enemy (7 sides)
+    }
 
     [Header("Shooting")]
     public GameObject bulletPrefab;
