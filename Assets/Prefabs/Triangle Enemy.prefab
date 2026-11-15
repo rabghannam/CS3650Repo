@@ -104,8 +104,14 @@ MonoBehaviour:
   hitFlashDuration: 0.15
   lifetime: 5
   isAlive: 1
+  spriteRenderer: {fileID: 0}
+  originalColor: {r: 0, g: 0, b: 0, a: 0}
+  hitFlashTimer: 0
+  lifetimeTimer: 0
   moveSpeed: 5
   bulletPrefab: {fileID: 1662998760038082472, guid: 79c0e106e91a85e4ba043bc67158c24c, type: 3}
+  bulletSpeed: 10
+  bulletSpreadAngle: 23
   fireInterval: 1
   game: {fileID: 0}
 --- !u!50 &45407036879113291

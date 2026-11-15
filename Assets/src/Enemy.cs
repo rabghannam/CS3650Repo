@@ -5,7 +5,7 @@ public class Enemy : GameObjectBase
     [Header("Health")]
     public int health = 3;
 
-    [Header("Hit feedback — US-005")]
+    [Header("Hit feedback ï¿½ US-005")]
     public Color hitFlashColor = Color.white;
     public float hitFlashDuration = 0.15f;
 
@@ -14,12 +14,11 @@ public class Enemy : GameObjectBase
 
     [HideInInspector] public bool isAlive = true;
 
-    private SpriteRenderer spriteRenderer;
-    private Color originalColor;
-    private float hitFlashTimer;
-    private float lifetimeTimer;
+    public SpriteRenderer spriteRenderer;
+    public Color originalColor;
+    public float hitFlashTimer;
+    public float lifetimeTimer;
     private int _startingHealth;
-
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -66,7 +65,7 @@ public class Enemy : GameObjectBase
         isAlive = false;
         
         // Award money based on enemy's starting health (which represents "sides")
-        // From GDD: "Asteroid destruction | 10 × sides | ×1"
+        // From GDD: "Asteroid destruction | 10 ï¿½ sides | ï¿½1"
         int moneyReward = 10 * _startingHealth;
         
         ProgressManager progressManager = ProgressManager.Instance;
