@@ -58,6 +58,12 @@ public class ProgressManager : MonoBehaviour
         LoadProgress();
     }
 
+    private void OnApplicationQuit()
+    {
+        // Reset progress when game is closed
+        ResetProgress();
+    }
+
     /// <summary>Load progression data from PlayerPrefs.</summary>
     public void LoadProgress()
     {

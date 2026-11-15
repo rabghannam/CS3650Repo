@@ -50,6 +50,14 @@ public class Game : MonoBehaviour
     public void notifyDeath(Player p)
     {
         isGameOver = true;
+        
+        // Reset player progress on death
+        ProgressManager progressManager = ProgressManager.Instance;
+        if (progressManager != null)
+        {
+            progressManager.ResetProgress();
+        }
+        
         triggerGameOver();
     }
 
