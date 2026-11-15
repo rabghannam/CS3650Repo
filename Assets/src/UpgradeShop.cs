@@ -38,6 +38,9 @@ public class UpgradeShop : MonoBehaviour
         // Get or create the ProgressManager
         _progressManager = ProgressManager.Instance;
         
+        // Note: Button click events are handled by individual UpgradeButton scripts
+        // UpgradeShop only manages the display, not the click events
+        
         // Load and display initial state
         RefreshShop();
     }
@@ -134,36 +137,90 @@ public class UpgradeShop : MonoBehaviour
     /// <summary>Called when Max Health upgrade is purchased.</summary>
     public void OnMaxHealthPurchased()
     {
+        if (_progressManager == null)
+            _progressManager = ProgressManager.Instance;
+        
+        if (_progressManager == null)
+        {
+            Debug.LogError("ProgressManager not found!");
+            return;
+        }
+        
         int cost = _progressManager.GetMaxHealthCost();
+        
         if (_progressManager.CanAfford(cost) && _progressManager.MaxHealthLevel < 5)
         {
             _progressManager.Money -= cost;
             _progressManager.MaxHealthLevel += 1;
+            
+            // Apply upgrade to player if in scene
+            Player player = FindObjectOfType<Player>();
+            if (player != null)
+            {
+                player.maxHealth = _progressManager.GetActualMaxHealth();
+                player.health = player.maxHealth;
+            }
+            
             RefreshShop();
+            
+            // Update HUD
+            HUD hud = FindObjectOfType<HUD>();
+            if (hud != null)
+                hud.UpdateMoney();
         }
     }
 
     /// <summary>Called when Fire Rate upgrade is purchased.</summary>
     public void OnFireRatePurchased()
     {
+        if (_progressManager == null)
+            _progressManager = ProgressManager.Instance;
+        
+        if (_progressManager == null)
+        {
+            Debug.LogError("ProgressManager not found!");
+            return;
+        }
+        
         int cost = _progressManager.GetFireRateCost();
+        
         if (_progressManager.CanAfford(cost) && _progressManager.FireRateLevel < 5)
         {
             _progressManager.Money -= cost;
             _progressManager.FireRateLevel += 1;
             RefreshShop();
+            
+            // Update HUD
+            HUD hud = FindObjectOfType<HUD>();
+            if (hud != null)
+                hud.UpdateMoney();
         }
     }
 
     /// <summary>Called when Base Damage upgrade is purchased.</summary>
     public void OnBaseDamagePurchased()
     {
+        if (_progressManager == null)
+            _progressManager = ProgressManager.Instance;
+        
+        if (_progressManager == null)
+        {
+            Debug.LogError("ProgressManager not found!");
+            return;
+        }
+        
         int cost = _progressManager.GetBaseDamageCost();
+        
         if (_progressManager.CanAfford(cost) && _progressManager.BaseDamageLevel < 20)
         {
             _progressManager.Money -= cost;
             _progressManager.BaseDamageLevel += 1;
             RefreshShop();
+            
+            // Update HUD
+            HUD hud = FindObjectOfType<HUD>();
+            if (hud != null)
+                hud.UpdateMoney();
         }
     }
 }
