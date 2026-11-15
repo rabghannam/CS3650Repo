@@ -20,6 +20,13 @@ public class UpgradeButtonBaseDamage : MonoBehaviour
     private void Start()
     {
         _progressManager = ProgressManager.Instance;
+        
+        // Auto-get button if not assigned
+        if (purchaseButton == null)
+        {
+            purchaseButton = GetComponent<Button>();
+        }
+        
         RefreshButton();
         
         // Auto-connect button click event
@@ -34,6 +41,12 @@ public class UpgradeButtonBaseDamage : MonoBehaviour
         if (_progressManager == null)
             _progressManager = ProgressManager.Instance;
         RefreshButton();
+        
+        // Reconnect listener in case it was removed by OnDisable
+        if (purchaseButton != null)
+        {
+            purchaseButton.onClick.AddListener(OnPurchase);
+        }
     }
     
     private void OnDisable()
@@ -119,10 +132,6 @@ public class UpgradeButtonBaseDamage : MonoBehaviour
             HUD hud = FindObjectOfType<HUD>();
             if (hud != null)
                 hud.UpdateMoney();
-        }
-        else
-        {
-            Debug.Log("Cannot purchase Base Damage: Level=" + _progressManager.BaseDamageLevel + " Money=" + _progressManager.Money + " Cost=" + cost);
         }
     }
 }
