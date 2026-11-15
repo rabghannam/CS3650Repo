@@ -106,7 +106,15 @@ public class Player : GameObjectBase
         // Shooting logic
         bool spacePressed = Input.GetKey(KeyCode.Space);
         bool mousePressed = Input.GetMouseButton(0);
-        float fireInterval = 1f / (FIRE_RATE * rapidFireMultiplier);
+        
+        // Get upgraded fire rate from ProgressManager
+        float actualFireRate = FIRE_RATE;
+        ProgressManager progressManager = ProgressManager.Instance;
+        if (progressManager != null)
+        {
+            actualFireRate = progressManager.GetActualFireRate();
+        }
+        float fireInterval = 1f / actualFireRate;
 
         if (bulletPrefab != null)
         {
@@ -198,8 +206,12 @@ public class Player : GameObjectBase
             Bullet newBullet = newBulletObj.GetComponent<Bullet>();
             if (newBullet != null)
             {
-                // Apply damage multiplier from powerups
-                newBullet.damage = Mathf.RoundToInt(newBullet.damage * damageMultiplier);
+                // Apply base damage upgrade from ProgressManager
+                ProgressManager progressManager = ProgressManager.Instance;
+                if (progressManager != null)
+                {
+                    newBullet.damage = progressManager.GetActualBaseDamage();
+                }
                 game.bullets.Add(newBullet);
             }
         }

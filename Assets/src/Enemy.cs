@@ -30,12 +30,14 @@ public class Enemy : GameObjectBase
     private Color originalColor;
     private float hitFlashTimer;
     private float lifetimeTimer;
+    private int _startingHealth;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer != null) originalColor = spriteRenderer.color;
         lifetimeTimer = lifetime;
+        _startingHealth = health; // Store original health for money calculation
     }
 
     public override void CustomUpdate(float deltaTime)
@@ -75,23 +77,15 @@ public class Enemy : GameObjectBase
     {
         isAlive = false;
         
-        // US: Enemy item drops - each enemy drops exactly one item based on defined percentages
-        // Total drop rate: 100% (80% money + 15% powerup + 5% no drop)
-        float dropRoll = Random.value;
-        float cumulativeRate = 0f;
+        // Award money based on enemy's starting health (which represents "sides")
+        // From GDD: "Asteroid destruction | 10 � sides | �1"
+        int moneyReward = 10 * _startingHealth;
         
-        // Check money drop (80%)
-        cumulativeRate += moneyDropRate;
-        if (dropRoll < cumulativeRate)
+        ProgressManager progressManager = ProgressManager.Instance;
+        if (progressManager != null)
         {
-            DropItem(moneyPrefab);
+            progressManager.AddMoney(moneyReward);
         }
-        // Check powerup drop (15%)
-        else if (dropRoll < cumulativeRate + powerupDropRate)
-        {
-            DropPowerup();
-        }
-        // else: no drop (5%)
         
         Destroy(gameObject);
     }
