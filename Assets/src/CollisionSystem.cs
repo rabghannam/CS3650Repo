@@ -48,6 +48,15 @@ public class CollisionSystem : MonoBehaviour
                     }
                 }
             }
+            else if (b.owner == Bullet.Owner.Enemy)
+            {
+                if (player != null && player.state == Player.PlayerState.Alive && bulletHitsPlayer(b, player))
+                {
+                    player.takeDamage(b.getDamage());
+                    Destroy(b.gameObject);
+                    bullets.RemoveAt(i);
+                }
+            }
         }
 
         // Player takes damage on direct collision with enemy
