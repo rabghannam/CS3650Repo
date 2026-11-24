@@ -158,15 +158,24 @@ public class Enemy : GameObjectBase
             DropPowerup();
         }
         // else: no drop (implicit, 0% since 75% + 25% = 100%)
-        
+
         // Award base money for defeating enemy
         ProgressManager progressManager = ProgressManager.Instance;
         if (progressManager != null)
         {
             progressManager.AddMoney(10 * _startingHealth);
         }
-        
-        Destroy(gameObject);
+
+        // Destroy is not allowed outside Play mode (edit-mode unit tests);
+        // DestroyImmediate is only used there so tests can exercise death logic.
+        if (Application.isPlaying)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            DestroyImmediate(gameObject);
+        }
     }
     
     /// <summary>

@@ -1,6 +1,7 @@
 using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.TestTools;
 
 /// <summary>
 /// Unit tests for the Boss feature (US-Boss).
@@ -70,6 +71,9 @@ public class BossFeatureTests
         obj.transform.position = spawnPosition ?? Vector3.zero;
         obj.AddComponent<SpriteRenderer>();
         _boss = obj.AddComponent<Boss>();
+        // NOTE: Awake() does not run on AddComponent in Edit Mode tests,
+        // so Enemy.spriteRenderer is wired manually.
+        _boss.spriteRenderer = obj.GetComponent<SpriteRenderer>();
         return _boss;
     }
 
@@ -79,8 +83,11 @@ public class BossFeatureTests
         obj.transform.position = Vector3.zero;
         SpriteRenderer renderer = obj.AddComponent<SpriteRenderer>();
         renderer.color = new Color(0.14440194f, 0.5566038f, 0.21884821f, 1f); // regular green
+        Enemy enemy = obj.AddComponent<Enemy>();
+        enemy.spriteRenderer = renderer;          // Awake() does not run in Edit Mode tests
+        enemy.originalColor = renderer.color;
         _regularEnemy = obj;
-        return obj.AddComponent<Enemy>();
+        return enemy;
     }
 
     private WaveManager CreateWaveManager()
