@@ -21,11 +21,11 @@ Finally, the code was reviewed against SOLID principles (Refactor).
 
 Open **Window → General → Test Runner → Edit Mode** to run every test with one runner.
 
-## Implemented tests (8)
+## Implemented tests (18 test cases / 16 unique)
 
 | # | Test | Requirement | Kind |
 |---|---|---|---|
-| 1 | `IsBossWave_TrueExactlyAtWaveMultiplesOfTen` | Boss every wave 10, 20, 30... (11 cases) | sync |
+| 1 | `IsBossWave_TrueExactlyAtWaveMultiplesOfTen` | Boss every wave 10, 20, 30... (11 `[TestCase]` variants) | sync |
 | 2 | `WavesBeforeFirstBossWave_NeverAnnounceOrSpawnBoss` | no boss before wave 10 | sync |
 | 3 | `Boss_Initialized_HasExactlyFiftyBaseHealth` | exactly 50 base health | sync |
 | 4 | `Boss_EliteVisuals_AreLargerAndBrighterThanRegularEnemy` | distinct + larger + brighter | sync |
@@ -36,6 +36,26 @@ Open **Window → General → Test Runner → Edit Mode** to run every test with
 
 Each test creates its own GameObjects in `[SetUp]`/`[TearDown]`, so any single unit
 can be tested independently of the rest of the game (no scene required).
+
+## Verified result (real editor 2022.3.4f1, batch run)
+
+```
+<test-run testcasecount="18" result="Passed" total="18" passed="18" failed="0" ... />
+```
+
+All tests pass with the Unity 2022.3.4f1 Test Runner (`-runTests -testPlatform EditMode`).
+
+## Lessons learned while wiring up the single test assembly
+
+- `UnityTestAttribute` lives in the **`UnityEngine.TestTools`** namespace (not in
+  `NUnit.Framework`) — `using UnityEngine.TestTools;` is required.
+- `UnityEngine.TestRunner` / `UnityEditor.TestRunner` asmdef references are best
+  made **by GUID**; and the test assembly must set `"includePlatforms": ["Editor"]`
+  to be discovered as an Edit Mode test assembly.
+- `MonoBehaviour.Awake()` does **not** run on `AddComponent` inside Edit Mode
+  tests — dependencies like `spriteRenderer` must be wired manually by the test.
+- `Object.Destroy` is illegal outside Play mode; `Enemy.Die()` therefore uses
+  `DestroyImmediate` only when `Application.isPlaying == false`.
 
 ## What was implemented to make them pass (Green)
 
