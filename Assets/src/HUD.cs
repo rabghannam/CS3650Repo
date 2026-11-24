@@ -15,11 +15,23 @@ public class HUD : MonoBehaviour
     public const float FLASH_DURATION = 1f;    // exactly 1 second, matches i-frames
     public float flashMaxAlpha = 0.45f;         // noticeable but non-blinding
 
+    [Header("Boss announcement (US-Boss)")]
+    public Text announcementText;              // optional canvas Text for boss warnings
+    public WaveManager waveManager;            // optional; supplies boss announcements
+    public float announcementDuration = 3f;
+
     private float flashTimer;
+    private float announcementTimer;
 
     private void Start()
     {
         if (flashOverlay != null) SetFlashAlpha(0f);
+
+        // US-Boss: subscribe to boss announcements if a WaveManager was assigned
+        if (waveManager != null)
+        {
+            waveManager.BossAnnounced += showAnnouncement;
+        }
     }
 
     private void Update()
@@ -30,6 +42,14 @@ public class HUD : MonoBehaviour
             float t = Mathf.Clamp01(flashTimer / FLASH_DURATION); // fade out over 1 s
             SetFlashAlpha(flashMaxAlpha * t);
             if (flashTimer <= 0f) SetFlashAlpha(0f);
+        }
+
+        // US-Boss: hide the boss announcement when its timer runs out
+        if (announcementTimer > 0f)
+        {
+            announcementTimer -= Time.deltaTime;                  // frame-rate independent
+            if (announcementTimer <= 0f && announcementText != null)
+                announcementText.gameObject.SetActive(false);
         }
         
         // Keep money display updated in real-time
@@ -78,6 +98,15 @@ public class HUD : MonoBehaviour
     {
         flashTimer = FLASH_DURATION;
         SetFlashAlpha(flashMaxAlpha);
+    }
+
+    /// <summary>US-Boss: show the special boss announcement text on screen.</summary>
+    public void showAnnouncement(string message)
+    {
+        if (announcementText == null) return;
+        announcementText.text = message;
+        announcementText.gameObject.SetActive(true);
+        announcementTimer = announcementDuration;
     }
 
     private void SetFlashAlpha(float a)

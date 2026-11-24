@@ -16,6 +16,10 @@ public class EnemySpawner : MonoBehaviour
     [Header("References")]
     public Game game;
 
+    [Header("Waves (US-Boss)")]
+    [Tooltip("Wave progression; a WaveManager component is added automatically if none assigned.")]
+    public WaveManager waveManager;
+
     private float spawnTimer;
     private float spawnInterval;
     private float elapsedTime;
@@ -29,6 +33,18 @@ public class EnemySpawner : MonoBehaviour
         spawnInterval = initialSpawnInterval;
         spawnTimer = spawnInterval;
         elapsedTime = 0f;
+
+        // US-Boss: ensure a WaveManager exists so boss waves (every 10 waves)
+        // trigger boss announcements and boss spawns while the game runs.
+        if (waveManager == null)
+        {
+            waveManager = GetComponent<WaveManager>();
+            if (waveManager == null)
+            {
+                waveManager = gameObject.AddComponent<WaveManager>();
+            }
+        }
+        waveManager.game = game;
     }
 
     private void Update()
