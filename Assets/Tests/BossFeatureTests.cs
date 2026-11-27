@@ -1,3 +1,7 @@
+/**
+ *  Tests for the boss enemy
+ *  Author: Eneko
+*/
 using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
