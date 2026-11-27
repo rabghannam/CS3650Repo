@@ -1,4 +1,8 @@
 /**
+ *  Tests for the invicibility frames
+ *  Author: David Sanchez
+*/
+/**
  *  Tests for the features implemented in this conversation.
  *  Task 1 - US-009: 1-second invincibility frames after taking damage.
  *
