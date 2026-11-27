@@ -20,6 +20,10 @@ public class SettingsManager : MonoBehaviour
     private int _resolutionWidth = 1920;
     private int _resolutionHeight = 1080;
 
+    // Invincibility i-frames after damage (US-009) - default ON
+    private const string INVINCIBILITY_KEY = "Settings_Invincibility";
+    private bool _invincibility = true;
+
     // Singleton instance
     private static SettingsManager _instance;
     
@@ -66,6 +70,7 @@ public class SettingsManager : MonoBehaviour
         _fullscreen = PlayerPrefs.GetInt(FULLSCREEN_KEY, 1) == 1;
         _resolutionWidth = PlayerPrefs.GetInt(RESOLUTION_WIDTH_KEY, 1920);
         _resolutionHeight = PlayerPrefs.GetInt(RESOLUTION_HEIGHT_KEY, 1080);
+        _invincibility = PlayerPrefs.GetInt(INVINCIBILITY_KEY, 1) == 1;
         
         ApplySettings();
     }
@@ -77,6 +82,7 @@ public class SettingsManager : MonoBehaviour
         PlayerPrefs.SetInt(FULLSCREEN_KEY, _fullscreen ? 1 : 0);
         PlayerPrefs.SetInt(RESOLUTION_WIDTH_KEY, _resolutionWidth);
         PlayerPrefs.SetInt(RESOLUTION_HEIGHT_KEY, _resolutionHeight);
+        PlayerPrefs.SetInt(INVINCIBILITY_KEY, _invincibility ? 1 : 0);
         PlayerPrefs.Save();
         
         ApplySettings();
@@ -122,6 +128,13 @@ public class SettingsManager : MonoBehaviour
     {
         get => _resolutionHeight;
         set => _resolutionHeight = value;
+    }
+
+    /// <summary>US-009: 1-second invincibility after damage. Default ON; toggleable in settings.</summary>
+    public bool InvincibilityEnabled
+    {
+        get => _invincibility;
+        set => _invincibility = value;
     }
 
     /// <summary>Set resolution from a string (e.g., "1920x1080").</summary>

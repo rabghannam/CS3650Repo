@@ -11,6 +11,7 @@ public class SettingsPanel : MonoBehaviour
     [Header("UI References")]
     public Slider volumeSlider;
     public Toggle fullscreenToggle;
+    public Toggle invincibilityToggle;
     public Dropdown resolutionDropdown;
     public Button applyButton;
     public Button backButton;
@@ -47,6 +48,13 @@ public class SettingsPanel : MonoBehaviour
         {
             fullscreenToggle.isOn = settings.Fullscreen;
             fullscreenToggle.onValueChanged.AddListener(OnFullscreenChanged);
+        }
+
+        // Invincibility (i-frames) toggle
+        if (invincibilityToggle != null)
+        {
+            invincibilityToggle.isOn = settings.InvincibilityEnabled;
+            invincibilityToggle.onValueChanged.AddListener(OnInvincibilityChanged);
         }
 
         // Resolution dropdown
@@ -108,6 +116,15 @@ public class SettingsPanel : MonoBehaviour
         }
     }
 
+    private void OnInvincibilityChanged(bool value)
+    {
+        SettingsManager settings = SettingsManager.Instance;
+        if (settings != null)
+        {
+            settings.InvincibilityEnabled = value;
+        }
+    }
+
     private void OnResolutionChanged(int index)
     {
         SettingsManager settings = SettingsManager.Instance;
@@ -161,6 +178,8 @@ public class SettingsPanel : MonoBehaviour
             volumeSlider.onValueChanged.RemoveListener(OnVolumeChanged);
         if (fullscreenToggle != null)
             fullscreenToggle.onValueChanged.RemoveListener(OnFullscreenChanged);
+        if (invincibilityToggle != null)
+            invincibilityToggle.onValueChanged.RemoveListener(OnInvincibilityChanged);
         if (resolutionDropdown != null)
             resolutionDropdown.onValueChanged.RemoveListener(OnResolutionChanged);
         if (applyButton != null)

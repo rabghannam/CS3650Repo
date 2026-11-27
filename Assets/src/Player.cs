@@ -325,7 +325,7 @@ public class Player : GameObjectBase
                 playDeathEffect();
                 game.notifyDeath(this);
             }
-            else
+            else if (invincibilityEnabled())
             {
                 state = PlayerState.Invulnerable;                // Alive -> Invulnerable (US-009)
                 iFrameTimer = IFRAME_DURATION;
@@ -334,6 +334,13 @@ public class Player : GameObjectBase
         }
         // While Invulnerable: extra hits do nothing (i-frames).
         // While Dying/GameOver: damage is ignored.
+    }
+
+    /// <summary>US-009: i-frames can be toggled OFF in settings; default ON when no settings exist.</summary>
+    private bool invincibilityEnabled()
+    {
+        SettingsManager settings = SettingsManager.Instance;
+        return settings == null || settings.InvincibilityEnabled;
     }
 
     private void playDeathEffect()

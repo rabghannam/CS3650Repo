@@ -15,7 +15,7 @@ public class InputHandler : MonoBehaviour
     public bool isMoveLeft() => Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow);
     public bool isMoveRight() => Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow);
 
-    public InputState readKeyboard()
+    public virtual InputState readKeyboard()
     {
         Vector2 dir = Vector2.zero;
         if (isMoveUp()) dir.y += 1f;
