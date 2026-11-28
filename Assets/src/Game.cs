@@ -23,6 +23,14 @@ public class Game : MonoBehaviour
         player.game = this;
         player.input = inputHandler;
         player.hud = hud;
+
+        // Temporal Echo System (GDD 4.3): one recorder per run, wired to the player.
+        EchoRecorder echoRecorder = GetComponent<EchoRecorder>();
+        if (echoRecorder == null) echoRecorder = gameObject.AddComponent<EchoRecorder>();
+        echoRecorder.player = player;
+        echoRecorder.game = this;
+        echoRecorder.bulletPrefab = player.bulletPrefab;
+
         
         // Load upgrades from ProgressManager
         ProgressManager progressManager = ProgressManager.Instance;
@@ -63,8 +71,9 @@ public class Game : MonoBehaviour
 
     public void triggerGameOver()
     {
-        player.state = Player.PlayerState.GameOver;             // Dying -> GameOver
-        gameOverScreen.show();                                  // transitions to game over screen
+        // The player stays in Dying (US-008); GameOver is a post-death
+        // transition, and isDead() already covers Dying for all gameplay gates.
+        if (gameOverScreen != null) gameOverScreen.show();      // transitions to game over screen
     }
 
     private void LateUpdate()

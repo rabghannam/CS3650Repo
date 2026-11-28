@@ -119,7 +119,7 @@ public class Powerup : GameObjectBase
         }
     }
     
-    private void ApplyPowerup(Player player)
+    public void ApplyPowerup(Player player)
     {
         switch (powerupType)
         {

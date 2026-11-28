@@ -40,6 +40,10 @@ public class Player : GameObjectBase
     private float magnetTimer = 0f;
     private float shieldTimer = 0f;
 
+    // Absorbs float residue when a duration is ticked down in many small
+    // steps (e.g. 30 x 0.01s from 0.3s leaves ~1.5e-8 above zero).
+    private const float TIMER_EXPIRY_EPSILON = 0.0001f;
+
     // State machine states
     public enum PlayerState { Alive, Invulnerable, Dying, GameOver }
     public PlayerState state = PlayerState.Alive;
@@ -90,7 +94,7 @@ public class Player : GameObjectBase
         if (input == null) return;
         var s = input.readKeyboard();
         Vector2 dir = s.moveDirection;                            // instantaneous direction change
-        velocity = dir * moveSpeed;                              // 300 units/second
+        velocity = dir.normalized * moveSpeed;                   // 300 units/second, normalized diagonals
         position += velocity * Time.deltaTime;                   // frame-rate independent
 
         // Toggle fire mode with Tab
@@ -148,7 +152,7 @@ public class Player : GameObjectBase
         if (rapidFireTimer > 0f)
         {
             rapidFireTimer -= deltaTime;
-            if (rapidFireTimer <= 0f)
+            if (rapidFireTimer <= TIMER_EXPIRY_EPSILON)
             {
                 rapidFireMultiplier = 1f;
                 rapidFireTimer = 0f;
@@ -160,7 +164,7 @@ public class Player : GameObjectBase
         if (damageAmplifierTimer > 0f)
         {
             damageAmplifierTimer -= deltaTime;
-            if (damageAmplifierTimer <= 0f)
+            if (damageAmplifierTimer <= TIMER_EXPIRY_EPSILON)
             {
                 damageMultiplier = 1f;
                 damageAmplifierTimer = 0f;
@@ -172,7 +176,7 @@ public class Player : GameObjectBase
         if (magnetTimer > 0f)
         {
             magnetTimer -= deltaTime;
-            if (magnetTimer <= 0f)
+            if (magnetTimer <= TIMER_EXPIRY_EPSILON)
             {
                 hasMagnet = false;
                 magnetTimer = 0f;
@@ -184,7 +188,7 @@ public class Player : GameObjectBase
         if (shieldTimer > 0f)
         {
             shieldTimer -= deltaTime;
-            if (shieldTimer <= 0f)
+            if (shieldTimer <= TIMER_EXPIRY_EPSILON)
             {
                 hasShield = false;
                 shieldTimer = 0f;
